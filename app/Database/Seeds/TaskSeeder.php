@@ -23,7 +23,7 @@ class TaskSeeder extends Seeder
             }
         }
         if ($this->db->table('users')->countAllResults() === 0) {
-            $this->db->table('users')->insert(['username'=>'demo_user','full_name'=>'Alex Santos','email'=>'alex.santos@example.com','created_at'=>$now]);
+            $this->db->table('users')->insert(['username'=>'Enzo_Rodriguez','full_name'=>'Enzo_Rodriguez','email'=>(string) env('demo.email', 'demo@example.com'),'created_at'=>$now]);
         }
     }
 }
