@@ -21,7 +21,7 @@ all_html=page('/tasks')
 dates=re.findall(r'<td class="date">(.*?)</td>',all_html)
 assert len(dates)==len(rows)
 assert [datetime.datetime.strptime(d,'%b %d, %Y').date() for d in dates]==sorted(datetime.datetime.strptime(d,'%b %d, %Y').date() for d in dates)
-assert 'Alex Santos' in page('/profile')
+assert 'Enzo_Rodriguez' in page('/profile')
 about=page('/about')
 assert all(s in about for s in ['Dela Cruz, John Paul','Rodriguez, Robert Enzo','Merlin Marfa','AX 31'])
 # Exercise the no-tasks-today branch and restore original sample dates.
