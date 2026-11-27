@@ -1,69 +1,71 @@
-# CodeIgniter 4 Application Starter
+# Tasks for Today — IT0049 TSA1
 
-## What is CodeIgniter?
+GitHub: https://github.com/nezhalee06/IT0049-TSA1-Tasks-for-Today
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Hosted application: https://it0049-tasks-today.42web.io/
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+No login is required.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+A simple CodeIgniter application with four read-only pages. CodeIgniter 4.7.6, PHP and MySQL/MariaDB. Built on the official CodeIgniter application starter.
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Developers: Dela Cruz, John Paul (Designer) & Rodriguez, Robert Enzo (Encoder). BSIT – AGD, Section AX 31. Professor: Merlin Marfa.
 
-## Installation & updates
+## Pages
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+| Route | Page | Data |
+| --- | --- | --- |
+| `/` | Welcome / Today's Tasks | Only tasks whose task_date equals today's Philippine date |
+| `/tasks` | Task List | All tasks, ordered by task_date then id, ascending |
+| `/profile` | Profile | The single demo user |
+| `/about` | About | Static developer and course information |
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Nine sample tasks span yesterday, today and tomorrow. There is exactly one demo user. This assessment does not require login, CRUD forms or file uploads, so the app stays focused on the four requested pages.
 
-## Setup
+## Run the included local copy
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+Double-click `START-LOCAL.cmd` and open http://localhost:8086/ . Keep the console open. No username or password is needed. The local preview uses `writable/tasks.sqlite`; the hosted application uses MySQL.
 
-## Important Change with index.php
+The source-only ZIP/repository excludes installed dependencies and `.env`. For a fresh copy, run `composer install --no-dev`, create `.env` as described below and enable SQLite3 if using the local preview. The launcher expects PHP at `C:\xampp\php\php.exe` or on PATH. It runs the migration and seeder before starting the local PHP server.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+Example local `.env`:
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+```ini
+CI_ENVIRONMENT = development
+app.baseURL = 'http://localhost:8086/'
+app.indexPage = ''
+database.default.DBDriver = SQLite3
+database.default.database = tasks.sqlite
+```
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## MySQL setup / hosting
 
-## Repository Management
+1. Use PHP 8.2+ with intl, mbstring, mysqli/mysqlnd and fileinfo. Create an empty, dedicated MySQL/MariaDB database.
+2. Run `composer install --no-dev --optimize-autoloader`.
+3. Copy `.env.example` to `.env`. Set your public base URL, including its trailing slash, and actual database credentials. Never commit `.env`.
+4. Run `php spark migrate --all`, followed by `php spark db:seed TaskSeeder`.
+5. Point the web-server document root at `public/` and give the PHP account write access to `writable/`. The included root `.htaccess` also supports Apache shared hosting with a fixed project-root document root by forwarding requests to public and blocking private directories.
+6. Open each of the four pages and check the records.
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+Alternative without shell access: import `it0049_tsa1.sql` into the empty dedicated database instead of running migrations/seeding. Do not run the migration/seeder again on the SQL-imported schema, because the SQL alternative does not include framework migration tracking.
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+The seeder/import calculates sample dates when it runs. Stored task dates remain fixed afterward. On later dates the Welcome page may correctly show an empty state, while `/tasks` continues to show all records. The system always filters against the actual current Asia/Manila date. For a fresh demonstration on a later date, initialize a new empty demo database using the seeder/import.
 
-## Server Requirements
+## MVC structure
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+- `TaskModel` provides the today filter and date-ordered full query.
+- `UserModel` retrieves the demo profile from the users table.
+- `Tasks` and `Pages` controllers pass data to the four views.
+- `layout.php` shares navigation and page structure.
+- `public/tasks.css` contains the small responsive stylesheet.
+- Database migration and `TaskSeeder` reproduce the schema and sample data.
+- Dynamic text is escaped before display; auto-routing is disabled.
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+## Checks
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+Run `python tests/smoke.py` against the running LOCAL SQLite preview. It checks the record counts/dates, today-only filtering, complete date order, profile, credits, empty-today state and HTML escaping. It temporarily changes generated sample task data and restores it, so use it only on the included disposable local preview.
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+## Submission
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+Submit the GitHub repository link and the hosted working website link in the IT0049 TSA1 assignment page. All four pages are public; no demo login is needed. The submission guide supplied beside the project lists final links when deployment is complete.
+
+Framework reference: https://codeigniter4.github.io/userguide/

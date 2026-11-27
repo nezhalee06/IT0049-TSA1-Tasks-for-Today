@@ -1,0 +1,5 @@
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(?:app|vendor|writable|tests|database|docs)(?:/|$) - [F,L,NC]
+RewriteRule ^(?:\.|composer\.|spark$|env$|README|LICENSE|START-LOCAL|phpunit|preload) - [F,L,NC]
+RewriteRule ^(?!public(?:/|$))(.*)$ public/$1 [L]
