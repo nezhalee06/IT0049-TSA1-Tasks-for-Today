@@ -19,7 +19,7 @@ Developers: Dela Cruz, John Paul (Designer) & Rodriguez, Robert Enzo (Encoder). 
 | `/profile` | Profile | The single demo user |
 | `/about` | About | Static developer and course information |
 
-Nine sample tasks span yesterday, today and tomorrow. There is exactly one demo user. This assessment does not require login, CRUD forms or file uploads, so the app stays focused on the four requested pages.
+Nine sample tasks span yesterday, today and tomorrow. There is exactly one demo user, Enzo_Rodriguez. Set `demo.email` in your private `.env` before running the seeder to personalize the email. The SQL import uses a non-personal example address; deployed profile data may be personalized separately. This assessment does not require login, CRUD forms or file uploads, so the app stays focused on the four requested pages.
 
 ## Run the included local copy
 

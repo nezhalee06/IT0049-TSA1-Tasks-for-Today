@@ -28,4 +28,4 @@ INSERT INTO tasks (title,status,task_date,created_at) VALUES
  ('Test all four application pages','pending',DATE_ADD(@today,INTERVAL 1 DAY),@now),
  ('Prepare the submission links','pending',DATE_ADD(@today,INTERVAL 1 DAY),@now);
 INSERT INTO users (username,full_name,email,created_at) VALUES
- ('demo_user','Alex Santos','alex.santos@example.com',@now);
+ ('Enzo_Rodriguez','Enzo_Rodriguez','demo@example.com',@now);
